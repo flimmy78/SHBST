@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.shbst.bst.tftdisplay_15_h.utils.UpdataManager;
 
@@ -32,7 +31,6 @@ public class USBDiskReceiver extends BroadcastReceiver {
         }
         if(action.equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)){
             Log("usb设备插入");
-            Toast.makeText(context, "正在挂载U盘，请稍后...", Toast.LENGTH_LONG).show();
         }
         if(action.equals(UsbManager.ACTION_USB_DEVICE_DETACHED)){
             Log("usb设备拔出");

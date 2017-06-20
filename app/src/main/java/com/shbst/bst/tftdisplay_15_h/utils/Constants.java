@@ -15,7 +15,7 @@ public class Constants {
     // 默认播放视频
     public static final String DefaultPath = ThemePath+VIDEO_PATH+"KONE.mp4";
     // 视频横竖显
-    public static final String CrossScreen = "1";  //  横竖显示   0 横显  1 竖显
+    public static final String CrossScreen = "0";  //  横竖显示   0 横显  1 竖显
     // 字体格式
     public static final String KONE_TEXTVIEW = "KONE Information_v12.otf";
     //媒体区域播放的文件类型

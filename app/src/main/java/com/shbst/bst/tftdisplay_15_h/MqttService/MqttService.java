@@ -24,9 +24,9 @@ import com.shbst.androiddevicesdk.utils.ShellUtils;
 import com.shbst.androiddevicesdk.widget.DeviceSDKAdapter;
 import com.shbst.androiddevicesdk.widget.MqttAdapter;
 import com.shbst.androiddevicesdk.widget.VisualIntercomAdapter;
-import com.shbst.bst.tftdisplay_15_h.MainActivity;
 import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.LiftLayoutParams;
 import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.MqttParamsBean;
+import com.shbst.bst.tftdisplay_15_h.activity.MediaBoxActivity;
 import com.shbst.bst.tftdisplay_15_h.utils.DeviceUtils;
 import com.shbst.bst.tftdisplay_15_h.utils.PrefUtils;
 
@@ -144,7 +144,8 @@ public class MqttService {
         try{
             filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
             filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            mContext.registerReceiver(receiver, filter); //注册网络监听服务
+            try{ mContext.registerReceiver(receiver, filter); }catch (Exception e){e.printStackTrace();}//注册网络监听服务
+
             DeviceSDK.getInstance().setDeviceSDKListener(deviceSDKAdapter); //注册回调接口
             DeviceSDK.getInstance().setMqttListener(mqttAdapter);
             DeviceSDK.getInstance().setVisualIntercomListener(visualIntercomAdapter);
@@ -214,7 +215,7 @@ public class MqttService {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-
+                            e.printStackTrace();
                         }
                     }
                     registerDevice();
@@ -239,13 +240,14 @@ public class MqttService {
                             }
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-
+                            e.printStackTrace();
                         }
                     }
                 }
             }).start();
         }catch (Exception e)
         {
+            e.printStackTrace();
         }
     }
 
@@ -431,8 +433,7 @@ public class MqttService {
                     String rUid = msg.getData().getString("uid");
                     mqttParamsBean.uid = rUid;
                     mqttParamsBean.typ = 1;
-
-                    List<LiftLayoutParams> layoutList = MainActivity.getLayoutList();
+                    List<LiftLayoutParams> layoutList = MediaBoxActivity.getLayoutList();
                     Gson gson = new Gson();
                     mqttParamsBean.layout = gson.toJson(layoutList);
                     Log.i(TAG, "handleMessage: "+rJson);
@@ -456,7 +457,7 @@ public class MqttService {
                         String firmware_version = jsonObject.getString("firmware_version");
                         String time = jsonObject.getString("time");
                     } catch (JSONException e) {
-
+                        e.printStackTrace();
                     }
                     break;
             }
@@ -601,7 +602,7 @@ public class MqttService {
                 startDownImageGroup(urllist);
             }
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -615,7 +616,7 @@ public class MqttService {
             Thread.sleep(1000);
             DeviceSDK.getInstance().startDownload(path, themePath + downloadPATH);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -654,7 +655,7 @@ public class MqttService {
             jsonObject.put("time", time);
             upstateText("------------createACK------try---------");
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
         upstateText("------------createACK--------catch-------");
         DeviceSDK.getInstance().sendMessage(jsonObject.toString().getBytes(), paramsBean.typ, paramsBean.uid);

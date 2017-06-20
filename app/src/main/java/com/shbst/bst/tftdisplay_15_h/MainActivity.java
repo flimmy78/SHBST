@@ -20,7 +20,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,7 +32,6 @@ import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.LiftLayoutParams;
 import com.shbst.bst.tftdisplay_15_h.MqttService.MqttService;
 import com.shbst.bst.tftdisplay_15_h.activity.BaseActivity;
 import com.shbst.bst.tftdisplay_15_h.service.KONE_TransformProtocol;
-import com.shbst.bst.tftdisplay_15_h.service.SDAT_Server;
 import com.shbst.bst.tftdisplay_15_h.utils.ACache;
 import com.shbst.bst.tftdisplay_15_h.utils.ConfigurationParams;
 import com.shbst.bst.tftdisplay_15_h.utils.Constants;
@@ -76,20 +74,12 @@ public class MainActivity extends BaseActivity {
 
     int functionImage[] = {R.drawable.lift_null, R.drawable.lift_fireman, R.drawable.lift_outof, R.drawable.lift_priority,
             R.drawable.lift_attendant, R.drawable.lift_overload, R.drawable.lift_network};
-    int functionImage1[] = {R.drawable.lift_null, R.drawable.zn_lift_fireman, R.drawable.zn_lift_outof, R.drawable.zn_lift_priority,
-            R.drawable.zn_lift_attendant, R.drawable.zn_lift_overload, R.drawable.zn_lift_network};
 
     RelativeLayout tft_main;
-    SDAT_Server.LiftInfo liftinfo = new SDAT_Server.LiftInfo();
 
-    Animation animation;
     boolean newworkFlag = true;
 
     Params params = new Params();
-    String ARROW_PATH = "/arrow/";        // 箭头资源文件目录
-    String DESKTOP_PATH = "/desktop/";    // 背景资源目录
-    String FUNCTION_PATH = "/function/";  // 功能图片资源目录
-    String PICTURE_PTTH = "/picture/";    // 图片资源目录
 
     String fillScreen = "1";  //0  全屏显示  1  非全屏
     static String crossScreenNow = "";
@@ -99,15 +89,8 @@ public class MainActivity extends BaseActivity {
     Drawable upArrow;
     Drawable downArrow;
     Drawable noneArrow;
-    MyApplication myApplication;
-    boolean startDownload = false;
 
-    private boolean isImagePlayType = false;    // 设置图片是单个播放还是循环播放
-
-    private List<String> imageList;
     private int imageRunTime = 3;  //图片轮播时间  单位：s
-
-
     private String lastFloor = "";   // 上一次楼层位置
     private String nowFloor = "";    // 当前楼层位置
 
@@ -116,9 +99,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main_10_v);
         setContentView(R.layout.activity_main_15_v);
-
         // 注册EventBus
         eventBus.register(MainActivity.this);
         configurationParams = ConfigurationParams.getConfigurationParams(MainActivity.this);
@@ -144,7 +125,6 @@ public class MainActivity extends BaseActivity {
      */
     private void initView() {
         dialog = new ProgressDialog(this);
-        imageList = new ArrayList<>();
         lift_title_date = (LinearLayout) findViewById(R.id.lift_title_date);
         lift_network = (ImageView) findViewById(R.id.lift_network);
         lift_title = (KONETextView) findViewById(R.id.lift_title);
@@ -948,9 +928,7 @@ public class MainActivity extends BaseActivity {
                                             break;
                                         case "APK":
                                             textTipView.setText("");
-//                                            Log.i(TAG, "run: " + resFilePath);
-                                            File file = new File(resFilePath);
-                                            openFile(file);
+                                            upAPK(resFilePath);
                                             break;
                                     }
                                     resFile.delete();
@@ -972,7 +950,6 @@ public class MainActivity extends BaseActivity {
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-
                 }
                 break;
             case MqttService._reset:
@@ -990,18 +967,8 @@ public class MainActivity extends BaseActivity {
             case MqttService._webscrolltext:
                 setScrollTextShow(event.info);
                 break;
-            case "imageDownImage":
-                int i = Integer.parseInt(event.info);
-                if (i > 1) {
-                    isImagePlayType = true;
-                } else {
-                    isImagePlayType = false;
-                }
-                break;
         }
     }
-
-
     //获取当前本图片路径
     private List<String> getImageList() {
         String path = Constants.ThemePath + MqttService.resourcePATH;
@@ -1406,6 +1373,7 @@ public class MainActivity extends BaseActivity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
         }
+
         if (rType.equals(Constants.WebUrl)) {
             setVideoFullscreen(lift_webview, PrefUtils.getString(this, "fullscreen", fillScreen));
         } else {
@@ -1592,7 +1560,16 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    Intent intent = new Intent();
+    private void upAPK(String filePath) {
 
+        if(intent == null){intent = new Intent();}
+        Log.i(TAG, "upAPK: 发送广播升级apk");
+        intent.setAction("zhouwc.example.com.apkupdatedemo");
+        intent.putExtra("apk", filePath);
+        sendBroadcast(intent);
+
+    }
     @Override
     protected void onStop() {
         super.onStop();

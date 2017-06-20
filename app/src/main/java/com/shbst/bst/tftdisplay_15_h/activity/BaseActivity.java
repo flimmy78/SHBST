@@ -32,9 +32,11 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setFullScreenAndHidMenu(this);
         PrefUtils.getString(this, Constants.rDisplay, String.valueOf(getDisplay()));
     }
+
 
     /**
      * 获取屏幕分辨率

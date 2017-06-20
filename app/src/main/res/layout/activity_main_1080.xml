@@ -62,15 +62,13 @@
         android:id="@+id/lift_scrollingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
         android:paddingLeft="28dp"
         android:paddingRight="28dp"
-        android:focusable="true"
-        android:layout_marginRight="20dp"
-        android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
+        android:ellipsize="marquee"
+        android:layout_marginRight="20dp"
         android:textSize="50sp" />
+
     <com.shbst.bst.tftdisplay_15_h.view.ScreenSurfaceView
         android:id="@+id/lift_video"
         android:layout_width="wrap_content"

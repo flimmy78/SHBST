@@ -876,11 +876,7 @@ public class MediaScreenActivity extends BaseActivity {
             case "progress":
                 textTipView.setText(event.info);
                 break;
-            case "started":
-
-                break;
             case "completed":
-
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -1642,6 +1638,7 @@ public class MediaScreenActivity extends BaseActivity {
     }
 
     Intent intent = new Intent();
+
     private void upAPK(String filePath) {
 
         if(intent == null){intent = new Intent();}

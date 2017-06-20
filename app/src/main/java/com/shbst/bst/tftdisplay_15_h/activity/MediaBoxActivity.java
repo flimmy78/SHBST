@@ -166,9 +166,14 @@ public class MediaBoxActivity extends BaseActivity {
             lift_scrollingText.setText(PrefUtils.getString(this, "Word", scroll));
         }
         lift_video = (ScreenSurfaceView) findViewById(R.id.lift_video);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         // 默认播放视频文件
         lift_video.setHolderView();
-
         String rType = PrefUtils.getString(this, Constants.rType, Constants.VIDEO);
 
         if (rType.equals(Constants.VIDEO)) {
@@ -187,9 +192,10 @@ public class MediaBoxActivity extends BaseActivity {
         }
 
         // 默认旋转方向
-        //crossScreenNow = PrefUtils.getString(this, "crossScreen", Constants.CrossScreen);
-       // setOrientation(crossScreenNow);
-        //getParamsData();
+        crossScreenNow = PrefUtils.getString(this, "crossScreen", Constants.CrossScreen);
+        setOrientation(crossScreenNow);
+        getParamsData();
+
     }
 
     public void onEventMainThread(UpdataManager.CopyBean copyBean) {
@@ -1372,7 +1378,6 @@ public class MediaBoxActivity extends BaseActivity {
     }
 
     boolean setOrientationInit(String orientation) {
-
         String rType = PrefUtils.getString(this, Constants.rType, Constants.VIDEO);
         ACache.get(this).clear();
 
@@ -1423,7 +1428,7 @@ public class MediaBoxActivity extends BaseActivity {
             brightness = 255;
         }
         int bri = (int) Math.ceil((brightness * 255) / 100);
-        mLog(String.valueOf(bri) + "  " + brightness);
+        //mLog(String.valueOf(bri) + "  " + brightness);
         Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, bri);
     }
 
@@ -1483,7 +1488,6 @@ public class MediaBoxActivity extends BaseActivity {
 
             imageIndex = image;
         }
-//        Log.i(TAG, "setLiftFunction: "+image);
     }
 
     /**
@@ -1533,28 +1537,25 @@ public class MediaBoxActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // 检测屏幕的方向：纵向或横向
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-        }
     }
 
     @Override
-    protected void onResume() {
-
-        super.onResume();
+    protected void onStop() {
+        super.onStop();
+        newworkFlag = false;
+        if (lift_video != null) {
+            lift_video.stopSurfacView();
+        }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         newworkFlag = false;
-        lift_video.stopSurfacView();
+        if (lift_video != null) {
+            lift_video.stopSurfacView();
+        }
         unbindService(connection);
     }
-
     /**
      * Web请求参数
      */

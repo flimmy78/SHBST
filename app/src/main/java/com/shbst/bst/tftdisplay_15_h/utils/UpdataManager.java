@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shbst.androiddevicesdk.utils.LogUtils;
@@ -54,11 +53,9 @@ public class UpdataManager {
                 eventBus.register(context);
             }
             Log("正在复制升级文件，请稍后");
-            Toast.makeText(contextTmp, "正在复制升级文件，请稍后", Toast.LENGTH_LONG).show();
 
         } else {
             Log("复制升级文件异常，请稍后再试");
-            Toast.makeText(contextTmp, "复制升级文件异常，请稍后再试", Toast.LENGTH_LONG).show();
             return;
         }
         String sourcePath = clearStr(sourcePathTmp, "file://") + File.separator;
