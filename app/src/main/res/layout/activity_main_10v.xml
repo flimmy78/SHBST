@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tft_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:rotation="180"
+    android:background="@color/TFT_bg"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.shbst.bst.tftdisplay_15_h.view.KONETextView
+            android:id="@+id/textTipView"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/lift_network"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/network"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/lift_title_date_v"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.shbst.bst.tftdisplay_15_h.view.KONETextView
+                        android:id="@+id/lift_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="Shanghai Mart"
+                        android:textColor="#fff"
+                        android:textSize="40sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lift_title_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical">
+
+                    <com.shbst.bst.tftdisplay_15_h.view.KONETextClock
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:format12Hour="hh:mm"
+                        android:layout_marginTop="-8dp"
+                        android:gravity="center"
+                        android:textSize="35sp" />
+
+                    <com.shbst.bst.tftdisplay_15_h.view.KONETextClock
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:format12Hour="dd.MM.yyyy"
+                        android:format24Hour="dd.MM.yyyy"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lift_title_date_v"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="-45dp">
+
+                <RelativeLayout
+                    android:id="@+id/lift_arrow_aa"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/lift_arrow"
+                        android:layout_width="138dp"
+                        android:layout_height="153dp"
+                        android:layout_centerInParent="true" />
+
+                    <ImageView
+                        android:id="@+id/lift_function"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/lift_arrow"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="120dp"
+                        />
+                </RelativeLayout>
+
+
+                <com.shbst.bst.tftdisplay_15_h.view.KONETextView
+                    android:id="@+id/lift_floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:paddingTop="-2dp"
+                    android:layout_toRightOf="@id/lift_arrow_aa"
+                    android:text="2"
+                    android:textSize="230sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <com.shbst.bst.tftdisplay_15_h.view.KONEVideoView
+                    android:layout_width="match_parent"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_height="355dp" />
+
+                <com.shbst.bst.tftdisplay_15_h.view.KONEScrollingText
+                    android:id="@+id/lift_scrollingText"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingLeft="40dp"
+                    android:paddingRight="40dp"
+                    android:singleLine="true"
+                    android:textSize="25sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <com.shbst.bst.tftdisplay_15_h.view.KONEVideoView
+        android:id="@+id/lift_video"
+        android:layout_width="600dp"
+        android:rotation="180"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_height="355dp" />
+
+</RelativeLayout>
