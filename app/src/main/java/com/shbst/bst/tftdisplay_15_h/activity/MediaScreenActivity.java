@@ -325,7 +325,6 @@ public class MediaScreenActivity extends BaseActivity {
         }
     }
 
-    //
     private String upMediaDir = "Resource";
     public String downloadPATH = "resDownload/multimedia/";       //视频资源目录
     private String basePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
