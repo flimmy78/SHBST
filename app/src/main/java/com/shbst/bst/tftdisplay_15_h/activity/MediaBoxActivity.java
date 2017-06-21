@@ -197,7 +197,6 @@ public class MediaBoxActivity extends BaseActivity {
         getParamsData();
 
     }
-
     public void onEventMainThread(UpdataManager.CopyBean copyBean) {
 
         if (copyBean.type.equals("start")) {

@@ -60,7 +60,6 @@ public class UpdataManager {
         }
         String sourcePath = clearStr(sourcePathTmp, "file://") + File.separator;
         Log("String sourcePath   "+sourcePath+ update);
-
         map.clear();
         map.put(sourcePath+ update, upMediaDirToPath);
         upSource();

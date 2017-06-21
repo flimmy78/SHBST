@@ -28,7 +28,4 @@ public class Constants {
     public static final String WebUrl = "WebUrl";
     public static final String PICTURES = "picture";
     public static final String VIDEO = "video";
-    public static final String AUDIO = "audio";
-    public static final String TEXT = "text";
-
 }

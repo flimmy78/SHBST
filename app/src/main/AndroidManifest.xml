@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-
     <!--权限...开机启动-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
@@ -29,7 +28,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MediaBoxActivity"
+        <activity android:name=".MainActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|mcc|mnc"
             android:screenOrientation="reversePortrait">
             <intent-filter>
@@ -44,16 +43,6 @@
         <service android:name=".service.KONE_TransformProtocol"/>
         <service android:name=".service.SDAT_Server" />
         <service android:name=".service.SwiFTP.FTPServerService"/>
-        <receiver
-            android:name=".StartUpReceiver"
-            android:enabled="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
 
         <receiver android:name=".receiver.USBDiskReceiver">
             <intent-filter

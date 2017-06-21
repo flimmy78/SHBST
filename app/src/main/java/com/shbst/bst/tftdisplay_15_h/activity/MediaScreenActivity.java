@@ -138,8 +138,10 @@ public class MediaScreenActivity extends BaseActivity {
         downArrow = getResources().getDrawable(R.drawable.down);
         noneArrow = getResources().getDrawable(R.drawable.kone_arrow_null);
 
-        // 初始化web云端网络服务
-        mqttservice = MqttService.Open_IOT_Client(MediaScreenActivity.this);
+        try{
+            mqttservice = MqttService.Open_IOT_Client(MediaScreenActivity.this);
+        }
+        catch (Exception e){}
 
         // 初始化电梯柜信号传输服务a
         initDataService();
@@ -1614,7 +1616,9 @@ public class MediaScreenActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         newworkFlag = false;
-        lift_video.stopSurfacView();
+        if (lift_video != null) {
+            lift_video.stopSurfacView();
+        }
         unbindService(connection);
     }
     /**

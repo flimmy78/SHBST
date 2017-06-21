@@ -26,7 +26,7 @@ import com.shbst.androiddevicesdk.widget.MqttAdapter;
 import com.shbst.androiddevicesdk.widget.VisualIntercomAdapter;
 import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.LiftLayoutParams;
 import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.MqttParamsBean;
-import com.shbst.bst.tftdisplay_15_h.activity.MediaBoxActivity;
+import com.shbst.bst.tftdisplay_15_h.activity.MediaScreenActivity;
 import com.shbst.bst.tftdisplay_15_h.utils.DeviceUtils;
 import com.shbst.bst.tftdisplay_15_h.utils.PrefUtils;
 
@@ -433,7 +433,7 @@ public class MqttService {
                     String rUid = msg.getData().getString("uid");
                     mqttParamsBean.uid = rUid;
                     mqttParamsBean.typ = 1;
-                    List<LiftLayoutParams> layoutList = MediaBoxActivity.getLayoutList();
+                    List<LiftLayoutParams> layoutList = MediaScreenActivity.getLayoutList();
                     Gson gson = new Gson();
                     mqttParamsBean.layout = gson.toJson(layoutList);
                     Log.i(TAG, "handleMessage: "+rJson);
