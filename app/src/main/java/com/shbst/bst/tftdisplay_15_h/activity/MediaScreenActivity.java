@@ -241,14 +241,14 @@ public class MediaScreenActivity extends BaseActivity {
         if (crossScreenNow.equals("0")) {
             List<LiftLayoutParams> listLayout_H = new ArrayList<>();
             Log.i(TAG, "getLayoutList: ------------listLayout_H----");
-            listLayout_H.add(new LiftLayoutParams("arrow", "220", "245", "219", "180"));
-            listLayout_H.add(new LiftLayoutParams("date", "220", "50", "1690", "124"));
-            listLayout_H.add(new LiftLayoutParams("floor", "658", "400", "0", "419"));
-            listLayout_H.add(new LiftLayoutParams("function", "242", "100", "206", "820"));
-            listLayout_H.add(new LiftLayoutParams("text", "1260", "185", "658", "925"));
-            listLayout_H.add(new LiftLayoutParams("time", "200", "80", "1690", "42"));
-            listLayout_H.add(new LiftLayoutParams("title", "700", "100", "658", "47"));
-            listLayout_H.add(new LiftLayoutParams("video", "1260", "710", "658", "185"));
+            listLayout_H.add(new LiftLayoutParams("arrow", "138", "153", "84", "97"));
+            listLayout_H.add(new LiftLayoutParams("date", "150", "38", "675", "65"));
+            listLayout_H.add(new LiftLayoutParams("floor", "300", "230", "0", "230"));
+            listLayout_H.add(new LiftLayoutParams("function", "180", "85", "60", "466"));
+            listLayout_H.add(new LiftLayoutParams("text", "500", "35", "300", "500"));
+            listLayout_H.add(new LiftLayoutParams("time", "150", "60", "675", "26"));
+            listLayout_H.add(new LiftLayoutParams("title", "370", "100", "300", "30"));
+            listLayout_H.add(new LiftLayoutParams("video", "500", "378", "300", "108"));
             return listLayout_H;
         }
         if (crossScreenNow.equals("1")) {
