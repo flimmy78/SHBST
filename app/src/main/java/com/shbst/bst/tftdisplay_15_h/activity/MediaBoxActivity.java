@@ -10,7 +10,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -20,7 +19,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,10 +29,8 @@ import android.widget.RelativeLayout;
 import com.google.gson.Gson;
 import com.shbst.bst.tftdisplay_15_h.MqttService.Bean.LiftLayoutParams;
 import com.shbst.bst.tftdisplay_15_h.MqttService.MqttService;
-import com.shbst.bst.tftdisplay_15_h.MyApplication;
 import com.shbst.bst.tftdisplay_15_h.R;
 import com.shbst.bst.tftdisplay_15_h.service.KONE_TransformProtocol;
-import com.shbst.bst.tftdisplay_15_h.service.SDAT_Server;
 import com.shbst.bst.tftdisplay_15_h.utils.ACache;
 import com.shbst.bst.tftdisplay_15_h.utils.ConfigurationParams;
 import com.shbst.bst.tftdisplay_15_h.utils.Constants;
@@ -81,20 +77,10 @@ public class MediaBoxActivity extends BaseActivity {
 
     int functionImage[] = {R.drawable.lift_null, R.drawable.lift_fireman, R.drawable.lift_outof, R.drawable.lift_priority,
             R.drawable.lift_attendant, R.drawable.lift_overload, R.drawable.lift_network};
-    int functionImage1[] = {R.drawable.lift_null, R.drawable.zn_lift_fireman, R.drawable.zn_lift_outof, R.drawable.zn_lift_priority,
-            R.drawable.zn_lift_attendant, R.drawable.zn_lift_overload, R.drawable.zn_lift_network};
-
     RelativeLayout tft_main;
-    SDAT_Server.LiftInfo liftinfo = new SDAT_Server.LiftInfo();
-
-    Animation animation;
     boolean newworkFlag = true;
 
     Params params = new Params();
-    String ARROW_PATH = "/arrow/";        // 箭头资源文件目录
-    String DESKTOP_PATH = "/desktop/";    // 背景资源目录
-    String FUNCTION_PATH = "/function/";  // 功能图片资源目录
-    String PICTURE_PTTH = "/picture/";    // 图片资源目录
 
     String fillScreen = "0";  //0  全屏显示  1  非全屏
     static String crossScreenNow = "";
@@ -104,12 +90,7 @@ public class MediaBoxActivity extends BaseActivity {
     Drawable upArrow;
     Drawable downArrow;
     Drawable noneArrow;
-    MyApplication myApplication;
-    boolean startDownload = false;
 
-    private boolean isImagePlayType = false;    // 设置图片是单个播放还是循环播放
-
-    private List<String> imageList;
     private int imageRunTime = 3;  //图片轮播时间  单位：s
 
     private String lastFloor = "";   // 上一次楼层位置
@@ -144,7 +125,6 @@ public class MediaBoxActivity extends BaseActivity {
      */
     private void initView() {
         dialog = new ProgressDialog(this);
-        imageList = new ArrayList<>();
         lift_title_date = (LinearLayout) findViewById(R.id.lift_title_date);
         lift_network = (ImageView) findViewById(R.id.lift_network);
         lift_title = (KONETextView) findViewById(R.id.lift_title);
@@ -356,7 +336,6 @@ public class MediaBoxActivity extends BaseActivity {
         }
     }
 
-    //
     private String upMediaDir = "Resource";
     public String downloadPATH = "resDownload/multimedia/";       //视频资源目录
     private String basePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
@@ -391,7 +370,6 @@ public class MediaBoxActivity extends BaseActivity {
         if(event.type.equals("fullscreen")){
             PrefUtils.setString(this, "fullscreen", event.info);
             String rType = PrefUtils.getString(this, Constants.rType, Constants.VIDEO);
-//                Log.i(TAG, "onEventMainThread: "+event.info);
 
             if (rType.equals(Constants.WebUrl)) {
                 setVideoFullscreen(lift_webview, event.info);
@@ -479,15 +457,6 @@ public class MediaBoxActivity extends BaseActivity {
         if(event.type.equals("title")){
             PrefUtils.setString(this, "Title", event.info);
             lift_title.setText(event.info);
-//            Intent intent = new Intent();
-//            intent.setAction("com.jack.accessibility");
-//
-//            String path = basePath+downloadPATH+"MediaScreen.apk";
-//            Log.i(TAG, "sendBroadcast: "+path);
-//            String apkData[] = {path,"MediaScreen.apk"};
-//
-//            intent.putExtra("apk",apkData);
-//            sendBroadcast(intent);
         }
         if(event.type.equals("scrollingtext")){
             PrefUtils.setString(this, "Word", event.info);
@@ -512,7 +481,6 @@ public class MediaBoxActivity extends BaseActivity {
                     String path = basePath + downloadPATH + event.info;
                     final File resFile = new File(path);
                     Log.i(TAG, "run: resource---" + path);
-                    final String resFilePath = basePath+ upMediaDir +"/"+ event.info;
                     PrefUtils.setString(MediaBoxActivity.this, Constants.rType, event.type);
                     nowPath = event.info;
                     if(!lastPath.equals(nowPath)){
@@ -719,7 +687,6 @@ public class MediaBoxActivity extends BaseActivity {
     }
 
     private void sendLayoutP(final LiftLayoutParams layoutParams, String i) {
-//        Log.i(TAG, "sendLayoutP----------: " + layoutParams.toString());
         ACache.get(this).put(layoutParams.type + i, layoutParams);
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
@@ -800,7 +767,6 @@ public class MediaBoxActivity extends BaseActivity {
      * @param event 消息体
      */
     public void onEventMainThread(final MqttService.MqttInfo event) {
-//        Log.i(TAG, "onEventMainThread: " + event.toString());
         final Gson gson = new Gson();
         switch (event.type) {
             case MqttService._layout:
@@ -953,10 +919,10 @@ public class MediaBoxActivity extends BaseActivity {
                                             lift_webview.setVisibility(View.INVISIBLE);
                                             break;
                                         case "APK":
+                                            
                                             textTipView.setText("");
-//                                            Log.i(TAG, "run: " + resFilePath);
-                                            File file = new File(resFilePath);
-                                            openFile(file);
+
+                                            upAPK(resFilePath);
                                             break;
                                     }
                                     resFile.delete();
@@ -995,14 +961,6 @@ public class MediaBoxActivity extends BaseActivity {
                 break;
             case MqttService._webscrolltext:
                 setScrollTextShow(event.info);
-                break;
-            case "imageDownImage":
-                int i = Integer.parseInt(event.info);
-                if (i > 1) {
-                    isImagePlayType = true;
-                } else {
-                    isImagePlayType = false;
-                }
                 break;
         }
     }
@@ -1234,52 +1192,6 @@ public class MediaBoxActivity extends BaseActivity {
         }
     }
 
-
-    /**
-     * 打开文件
-     */
-    private void openFile(File file) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //设置intent的Action属性
-        intent.setAction(Intent.ACTION_VIEW);
-        //获取文件file的MIME类型
-        String type = getMIMEType(file);
-        //设置intent的data和Type属性。
-        intent.setDataAndType(/*ur i*/Uri.fromFile(file), type);
-        //跳转
-        startActivity(intent);
-    }
-
-    /**
-     * 根据文件后缀名获得对应的MIME类型。
-     */
-    private String getMIMEType(File file) {
-
-        String type = "*/*";
-        String fName = file.getName();
-        //获取后缀名前的分隔符"."在fName中的位置。
-        int dotIndex = fName.lastIndexOf(".");
-        if (dotIndex < 0) {
-            return type;
-        }
-   /* 获取文件的后缀名*/
-        String end = fName.substring(dotIndex, fName.length()).toLowerCase();
-        if (end == "") return type;
-        //在MIME和文件类型的匹配表中找到对应的MIME类型。
-        for (int i = 0; i < MIME_MapTable.length; i++) {
-            if (end.equals(MIME_MapTable[i][0]))
-                type = MIME_MapTable[i][1];
-        }
-        return type;
-    }
-
-    private String[][] MIME_MapTable = {
-            //{后缀名，MIME类型}
-            {".apk", "application/vnd.android.package-archive"},
-            {"", "*/*"}
-    };
-
     /**
      * 一键恢复默认
      */
@@ -1300,7 +1212,7 @@ public class MediaBoxActivity extends BaseActivity {
 
         PrefUtils.setString(MediaBoxActivity.this, Constants.rType, Constants.VIDEO);
         PrefUtils.setString(MediaBoxActivity.this, Constants.rPath, Constants.DefaultPath);
-        PrefUtils.setString(MediaBoxActivity.this, "fullscreen", "1");
+        PrefUtils.setString(MediaBoxActivity.this, "fullscreen", "0");
         PrefUtils.setString(MediaBoxActivity.this, "crossScreen", Constants.CrossScreen);
 //        setVideoFullscreen(lift_video, "1");
         crossScreenNow = PrefUtils.getString(this, "crossScreen", Constants.CrossScreen);
@@ -1382,8 +1294,6 @@ public class MediaBoxActivity extends BaseActivity {
 
         if (orientation.equals("0")) {
             paramsData();
-//            setVideoFullscreen(lift_video,PrefUtils.getString(this, "fullscreen", fillScreen));
-//            Log.i(TAG, "setOrientation: ---------setView_WHXY_H---------");
             if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
@@ -1427,7 +1337,6 @@ public class MediaBoxActivity extends BaseActivity {
             brightness = 255;
         }
         int bri = (int) Math.ceil((brightness * 255) / 100);
-        //mLog(String.valueOf(bri) + "  " + brightness);
         Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, bri);
     }
 
@@ -1569,11 +1478,16 @@ public class MediaBoxActivity extends BaseActivity {
         public String isFillScreen;  // 视频全屏    0 全屏 1 半
         public String isCrossScreen; // 横竖显示   0 横显  1 竖显
     }
-
+    Intent intent = new Intent();
+    private void upAPK(String filePath) {
+        if(intent == null){intent = new Intent();}
+        Log.i(TAG, "upAPK: 发送广播升级apk");
+        intent.setAction("zhouwc.example.com.apkupdatedemo");
+        intent.putExtra("apk", filePath);
+        sendBroadcast(intent);
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

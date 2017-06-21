@@ -10,7 +10,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -171,7 +170,6 @@ public class MainActivity extends BaseActivity {
                 lift_video.setVideoPath(Constants.DefaultPath);
             }
         }
-
         // 默认旋转方向
         crossScreenNow = PrefUtils.getString(this, "crossScreen", Constants.CrossScreen);
         setOrientation(crossScreenNow);
@@ -181,7 +179,6 @@ public class MainActivity extends BaseActivity {
 
 
     public void onEventMainThread(UpdataManager.CopyBean copyBean) {
-
         if (copyBean.type.equals("start")) {
             newProgress();
         }
@@ -340,7 +337,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //
     private String upMediaDir = "Resource";
     public String downloadPATH = "resDownload/multimedia/";       //视频资源目录
     private String basePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
@@ -485,7 +481,6 @@ public class MainActivity extends BaseActivity {
                     String path = basePath + downloadPATH + event.info;
                     final File resFile = new File(path);
                     Log.i(TAG, "run: resource---" + path);
-                    final String resFilePath = basePath+ upMediaDir +"/"+ event.info;
                     PrefUtils.setString(MainActivity.this, Constants.rType, event.type);
                     nowPath = event.info;
                     if(!lastPath.equals(nowPath)){
@@ -522,7 +517,6 @@ public class MainActivity extends BaseActivity {
             }, 2000);
         }
         if (event.type.equals("video")) {
-
             lift_webview.setVisibility(View.INVISIBLE);
             lift_video.setVisibility(View.VISIBLE);
             lift_video.setBackground(null);
@@ -1070,7 +1064,6 @@ public class MainActivity extends BaseActivity {
      * 设置视频上半边显示
      */
     private void setTopVideoShow() {
-//        Log.i(TAG, "setTopVideoShow: "+fillScreen);
         String rTypesShow = PrefUtils.getString(this, Constants.rType, Constants.VIDEO);
         String fullscreenShow = PrefUtils.getString(MainActivity.this, "fullscreen", fillScreen);
         if (rTypesShow.equals(Constants.WebUrl)) {
@@ -1084,7 +1077,6 @@ public class MainActivity extends BaseActivity {
      * 设置视频下半边显示完全
      */
     private void setBottomVideoShow() {
-//        Log.i(TAG, "setBottomVideoShow: "+fillScreen);
         String rTypesShow = PrefUtils.getString(this, Constants.rType, Constants.VIDEO);
         String fullscreenShow = PrefUtils.getString(MainActivity.this, "fullscreen", fillScreen);
         if (rTypesShow.equals(Constants.WebUrl)) {
@@ -1202,52 +1194,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-    /**
-     * 打开文件
-     */
-    private void openFile(File file) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //设置intent的Action属性
-        intent.setAction(Intent.ACTION_VIEW);
-        //获取文件file的MIME类型
-        String type = getMIMEType(file);
-        //设置intent的data和Type属性。
-        intent.setDataAndType(/*ur i*/Uri.fromFile(file), type);
-        //跳转
-        startActivity(intent);
-    }
-
-    /**
-     * 根据文件后缀名获得对应的MIME类型。
-     */
-    private String getMIMEType(File file) {
-
-        String type = "*/*";
-        String fName = file.getName();
-        //获取后缀名前的分隔符"."在fName中的位置。
-        int dotIndex = fName.lastIndexOf(".");
-        if (dotIndex < 0) {
-            return type;
-        }
-   /* 获取文件的后缀名*/
-        String end = fName.substring(dotIndex, fName.length()).toLowerCase();
-        if (end == "") return type;
-        //在MIME和文件类型的匹配表中找到对应的MIME类型。
-        for (int i = 0; i < MIME_MapTable.length; i++) {
-            if (end.equals(MIME_MapTable[i][0]))
-                type = MIME_MapTable[i][1];
-        }
-        return type;
-    }
-
-    private String[][] MIME_MapTable = {
-            //{后缀名，MIME类型}
-            {".apk", "application/vnd.android.package-archive"},
-            {"", "*/*"}
-    };
-
     /**
      * 一键恢复默认
      */
@@ -1294,7 +1240,6 @@ public class MainActivity extends BaseActivity {
             setLayoutParams(layoutList.get(i));
         }
     }
-
     private void initLayout() {
         List<LiftLayoutParams> layoutList = getLayoutList();
         for (int i = 0; i < layoutList.size(); i++) {
@@ -1562,13 +1507,11 @@ public class MainActivity extends BaseActivity {
 
     Intent intent = new Intent();
     private void upAPK(String filePath) {
-
         if(intent == null){intent = new Intent();}
         Log.i(TAG, "upAPK: 发送广播升级apk");
         intent.setAction("zhouwc.example.com.apkupdatedemo");
         intent.putExtra("apk", filePath);
         sendBroadcast(intent);
-
     }
     @Override
     protected void onStop() {
